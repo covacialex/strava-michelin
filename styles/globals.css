@@ -24,3 +24,36 @@ a {
     background: black;
   }
 }
+
+.container {
+}
+
+.activity_list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+
+  max-height: 50vh;
+  overflow: scroll;
+}
+
+.activity_container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.activity_name {
+}
+
+.activity_movingtime {
+}
+
+.activity_distance {
+}
+
+.activity_speed {
+}
+
+.activity_elapsedtime {
+}
