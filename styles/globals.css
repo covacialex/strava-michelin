@@ -34,12 +34,24 @@ a {
   flex-direction: column;
 
   max-height: 50vh;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
-.activity_container {
+.activity_item {
   display: flex;
   align-items: center;
+  gap: 10px;
+}
+
+.activity_field {
+  background-color: #1f1f1f;
+  color: #fff;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.activity_info {
+  display: flex;
   gap: 10px;
 }
 
