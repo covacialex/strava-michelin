@@ -9,10 +9,11 @@ const Hompeage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const session = useSession();
+  console.log(session);
 
   // Check if token expired
   useEffect(() => {
-    if (session?.error === "RefreshAccessTokenError") {
+    if (!session.data.accessToken && !session.user) {
       signIn(); // Force sign in
     }
   }, [session]);
@@ -44,7 +45,7 @@ const Hompeage = () => {
 
   return (
     <div className="container">
-      <h1>Welcome {session.data ? session.data.user.name : "Not working"}</h1>
+      <h1>Welcome {session.data ? session.data.name : "Not working"}</h1>
 
       <div className="container__data">
         {data && <Activities data={data} />}

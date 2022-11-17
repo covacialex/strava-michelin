@@ -10,24 +10,30 @@ const STRAVA_AUTHORIZATION_URL =
   });
 
 async function refreshAccessToken(token) {
+  console.log("refresh", token);
   try {
     const url =
-      "https://www.strava.com/oauth/token" +
+      "https://www.strava.com/api/v3/oauth/token" +
       new URLSearchParams({
         client_id: process.env.STRAVA_CLIENT_ID,
         client_secret: process.env.STRAVA_SECRET,
-        grant_type: "refresh_token",
         refresh_token: token.refreshToken,
+        grant_type: "refresh_token",
       });
 
+    console.log("url:", url);
+
     const response = await fetch(url, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
+      // headers: {
+      //   "Content-Type": "application/x-www-form-urlencoded",
+      // },
       method: "POST",
     });
 
+    console.log("res", response);
+
     const refreshedTokens = await response.json();
+    console.log("refreshed", refreshedTokens);
 
     if (!response.ok) {
       throw refreshedTokens;
@@ -74,19 +80,23 @@ export const authOptions = {
       }
 
       // Return previous token if the access token has not expired yet
-      if (Date.now() < token.accessTokenExpires) {
-        return token;
-      }
+      // if (Date.now() < token.accessTokenExpires) {
+      //   return token;
+      // }
+
+      console.log("token", token);
+      return token;
 
       // Access token has expired, try to update it
-      return refreshAccessToken(token);
+      if (new Date() > token.accessTokenExpires) {
+        return refreshAccessToken(token);
+      }
     },
     async session({ session, token }) {
       session.user = token.user;
       session.accessToken = token.accessToken;
       session.error = token.error;
 
-      console.log("1", session);
       return session;
     },
   },
