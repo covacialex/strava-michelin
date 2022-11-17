@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
-import Activity from "./Activity";
-import useSWR, { fetchWithToken } from "swr";
+import useSWR from "swr";
 import Activities from "./Activities";
+import ActivityList from "./ActivityList";
 
 const Hompeage = () => {
   const [activities, setActivities] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const session = useSession();
-  console.log(session);
+
+  // Check if token expired
+  useEffect(() => {
+    if (session?.error === "RefreshAccessTokenError") {
+      signIn(); // Force sign in
+    }
+  }, [session]);
 
   const fetcher = (url, token) =>
     fetch(url, {
@@ -32,13 +38,18 @@ const Hompeage = () => {
     fetcher
   );
 
+  //   console.log(data);
+
   if (isLoading) return <p>Loading...</p>;
 
   return (
     <div className="container">
       <h1>Welcome {session.data ? session.data.user.name : "Not working"}</h1>
 
-      {data && <Activities data={data} />}
+      <div className="container__data">
+        {data && <Activities data={data} />}
+        <ActivityList />
+      </div>
 
       <button onClick={() => signOut()}>Sign out</button>
     </div>

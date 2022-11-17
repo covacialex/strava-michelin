@@ -1,21 +1,24 @@
 import React from "react";
 import { useState } from "react";
 import Activity from "./Activity";
+import { useStateContext } from "../context/StateContext";
 
 const Activities = ({ data }) => {
-  const [activityList, setActivityList] = useState([]);
-  //   console.log(data);
+  // const [activityList, setActivityList] = useState([]);
+  // //   console.log(data);
 
-  const handleAdd = (item) => {
-    const checkActivity = activityList.find((el) => el.id === item.id);
+  // const handleAdd = (item) => {
+  //   const checkActivity = activityList.find((el) => el.id === item.id);
 
-    if (checkActivity) {
-      console.log("Already in list");
-    } else {
-      setActivityList((curr) => [...curr, item]);
-    }
-    console.log(activityList);
-  };
+  //   if (checkActivity) {
+  //     console.log("Already in list");
+  //   } else {
+  //     setActivityList((curr) => [...curr, item]);
+  //   }
+  //   console.log(activityList);
+  // };
+
+  const { activityList, setActivityList, handleAdd } = useStateContext();
 
   return (
     <div>
@@ -23,18 +26,9 @@ const Activities = ({ data }) => {
         {!data.errors ? (
           data.map((activity) => (
             <>
-              <Activity
-                key={activity.id}
-                activity={activity}
-                onAdd={handleAdd}
-                // key={activity.id}
-                // id={activity.id}
-                // name={activity.name}
-                // moving_time={activity.moving_time}
-                // distance={activity.distance}
-                // start_date_local={activity.start_date_local}
-              />
-              <button onClick={() => handleAdd(activity)}>CLick</button>
+              <Activity key={activity.id} activity={activity} />
+              <button onClick={() => handleAdd(activity)}>Activity</button>
+              <button onClick={() => console.log(activityList)}>List</button>
             </>
           ))
         ) : (

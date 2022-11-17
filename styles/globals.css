@@ -69,3 +69,7 @@ a {
 
 .activity_elapsedtime {
 }
+
+.container__data {
+  display: flex;
+}

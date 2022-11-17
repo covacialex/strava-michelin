@@ -34,7 +34,6 @@ const Activity = ({ activity }, onAdd) => {
       >
         Click Link
       </a>
-      <button onClick={() => console.log(activityList)}>Click</button>
     </li>
   );
 };
