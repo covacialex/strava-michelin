@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import Activity from "./Activity";
 import { useStateContext } from "../context/StateContext";
+import { signIn } from "next-auth/react";
 
 const Activities = ({ data }) => {
   // const [activityList, setActivityList] = useState([]);
@@ -23,17 +24,15 @@ const Activities = ({ data }) => {
   return (
     <div>
       <ul className="activity_list">
-        {!data.errors ? (
-          data.map((activity) => (
-            <>
-              <Activity key={activity.id} activity={activity} />
-              <button onClick={() => handleAdd(activity)}>Activity</button>
-              <button onClick={() => console.log(activityList)}>List</button>
-            </>
-          ))
-        ) : (
-          <p>Oh no</p>
-        )}
+        {!data.errors
+          ? data.map((activity) => (
+              <>
+                <Activity key={activity.id} activity={activity} />
+                <button onClick={() => handleAdd(activity)}>Activity</button>
+                <button onClick={() => console.log(activityList)}>List</button>
+              </>
+            ))
+          : signIn()}
       </ul>
     </div>
   );
