@@ -3,51 +3,44 @@ import { useState } from "react";
 import Activity from "./Activity";
 
 const Activities = ({ data }) => {
-  const [activities, setActivities] = useState(null);
-  const [isLoading, setLoading] = useState(false);
+  const [activityList, setActivityList] = useState([]);
+  //   console.log(data);
 
-  console.log(data);
+  const handleAdd = (item) => {
+    const checkActivity = activityList.find((el) => el.id === item.id);
 
-  //   useEffect(() => {
-  //     setLoading(true);
-  //     {
-  //       session.status === "authenticated" && getActivities();
-  //     }
-  //   }, [session.status]);
-
-  const startMonth = "1609462861";
-  const endMonth = "1672534861";
-
-  const getActivities = async () => {
-    const res = await fetch(
-      `https://www.strava.com/api/v3/athlete/activities?before=${endMonth}&after=${startMonth}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${session.data.accessToken}`,
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((asd) => {
-        setActivities(asd);
-        setLoading(false);
-      });
+    if (checkActivity) {
+      console.log("Already in list");
+    } else {
+      setActivityList((curr) => [...curr, item]);
+    }
+    console.log(activityList);
   };
 
   return (
     <div>
-      {/* <ul className="activity_list">
-        {activities.map((activity) => (
-          <Activity
-            id={activity.id}
-            name={activity.name}
-            moving_time={activity.moving_time}
-            distance={activity.distance}
-            start_date_local={activity.start_date_local}
-          />
-        ))}
-      </ul> */}
+      <ul className="activity_list">
+        {!data.errors ? (
+          data.map((activity) => (
+            <>
+              <Activity
+                key={activity.id}
+                activity={activity}
+                onAdd={handleAdd}
+                // key={activity.id}
+                // id={activity.id}
+                // name={activity.name}
+                // moving_time={activity.moving_time}
+                // distance={activity.distance}
+                // start_date_local={activity.start_date_local}
+              />
+              <button onClick={() => handleAdd(activity)}>CLick</button>
+            </>
+          ))
+        ) : (
+          <p>Oh no</p>
+        )}
+      </ul>
     </div>
   );
 };

@@ -6,17 +6,20 @@ import Activities from "./Activities";
 
 const Hompeage = () => {
   const [activities, setActivities] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const session = useSession();
-  // console.log(session);
+  console.log(session);
 
   const fetcher = (url, token) =>
     fetch(url, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).then((r) => r.json());
+    }).then((r) => {
+      setIsLoading(false);
+      return r.json();
+    });
 
   const startMonth = "1609462861";
   const endMonth = "1672534861";
@@ -29,14 +32,15 @@ const Hompeage = () => {
     fetcher
   );
 
+  if (isLoading) return <p>Loading...</p>;
+
   return (
     <div className="container">
       <h1>Welcome {session.data ? session.data.user.name : "Not working"}</h1>
 
-      <Activities data={data} />
+      {data && <Activities data={data} />}
 
       <button onClick={() => signOut()}>Sign out</button>
-      <button onClick={signIn}>Connect with strava</button>
     </div>
   );
 };

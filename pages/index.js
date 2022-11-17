@@ -3,7 +3,9 @@ import Hompeage from "../components/Hompeage";
 import styles from "../styles/Home.module.css";
 import { getSession } from "next-auth/react";
 
-export default function Home() {
+export default function Home(session) {
+  // if (Object.keys(session) === 0) console.log("no session");
+
   return (
     <div className={styles.container}>
       <Head>
