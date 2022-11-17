@@ -6,7 +6,7 @@ const ActivityList = () => {
   return (
     <div>
       {activityList.map((el) => (
-        <p>{el.name}</p>
+        <p key={el.id}>{el.name}</p>
       ))}
     </div>
   );

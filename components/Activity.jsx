@@ -31,6 +31,7 @@ const Activity = ({ activity }, onAdd) => {
       <a
         href={`https://www.strava.com/activities/${activity.id}`}
         target="_blank"
+        rel="noreferrer"
       >
         Click Link
       </a>
